@@ -3,4 +3,4 @@ Scenedemo #2 in under 8 kb including sound, animations, effects (based upon py_4
 
 Strong epilepsy warning.. (!!!)
 
-Very disturbing / ill graphic effects and sound in under 8 kb .. try at own risk.
+The digit represent the 1-100 % loading / calculating procedure to start it finaly.
