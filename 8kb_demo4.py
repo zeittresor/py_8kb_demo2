@@ -3,7 +3,7 @@ p.init();p.mixer.init(22050,-16,1,512);X=p.display.Info();W,H=X.current_w,X.curr
 U,V=[p.Surface((W,H)).convert_alpha()for _ in'12']
 F=p.font.SysFont('Segoe UI Emoji',92)
 def l(n):s.fill(1);s.blit(F.render(str(n),1,(255,)*3),(W//2,H//2));p.display.flip()
-l(0)
+l(1)
 def hc(h,q=0):
  h=(h+q*.071)%1;a=[abs(h*6-3)-1,2-abs(h*6-2),2-abs(h*6-4)];return tuple(max(0,min(255,I(x*255)))for x in a)
 td=os.path.join(tempfile.gettempdir(),'4kv_tex');os.makedirs(td,exist_ok=True);Q=[]
@@ -54,7 +54,7 @@ def obj(A,cx,cy,t,k,bt):
  P=[proj(x*(1+.35*S(k)),y*(1+.25*C(k*.7)),z,t*.7+k,t*.43+k*.2,t*.31,cx,cy,.78)for x,y,z in V]
  for fa in sorted(F,key=lambda f:sum(P[i][2]for i in f)):
   pts=[P[i][:2]for i in fa];col=hc(t*.05+sum(fa)*.04,k)
-  if (k+len(fa))&1:A.blit(p.transform.scale(Q[(k+sum(fa))%len(Q)],(96,96)),pts[0])
+  if (k+len(fa))&1:A.blit(p.transform.scale(Q[(k+sum(fa))%len(Q)],(160,160)),pts[0])
   d.polygon(A,(255,255,255),pts,1+I(bt*3))
 def dr(k,A,t):
  q,bt=(k*7+1)%17,(1-(t*2.85%1))**2;A.fill(0);cx,cy=W/2+S(t*.29+k)*W*.24,H/2+C(t*.23+k)*H*.23
@@ -71,7 +71,7 @@ def dr(k,A,t):
  elif q==3:obj(A,cx,cy,t,k,bt)
  elif q==4:
   for i in range(95):
-   z=(i*.041-t*.28)%3+.55;x=((i*61+k*13)%260-130)*W/420;y=((i*97+k*7)%170-85)*H/260;a=max(6,I((50+30*bt)/z));qv=Q[(i+k)%10];xo=(i*7+I(t*17)+k*5)%24;yo=(i*11+I(t*13)+k*3)%24;R=p.transform.rotate(p.transform.scale(qv.subsurface((xo,yo,24,24)),(a,a)),t*30+i*9);A.blit(R,(I(cx+x/z-R.get_width()/2),I(cy+y/z-R.get_height()/2)))
+   z=(i*.041-t*.28)%3+.55;x=((i*61+k*13)%260-130)*W/420;y=((i*97+k*7)%170-85)*H/260;a=max(6,I((50+30*bt)/z));qv=Q[(i+k)%len(Q)];xo=(i*7+I(t*17)+k*5)%24;yo=(i*11+I(t*13)+k*3)%24;R=p.transform.rotate(p.transform.scale(qv.subsurface((xo,yo,24,24)),(a,a)),t*30+i*9);A.blit(R,(I(cx+x/z-R.get_width()/2),I(cy+y/z-R.get_height()/2)))
  elif q==5:
   for i,e in enumerate(E*3):
    z=(i*.12-t*.18)%3+.7;ang=t*70+i*29+k*13;R=p.transform.rotozoom(e,ang,(.22+bt*.18)/z);x=cx+S(i*1.7+t*.9)*W*.42/z;y=cy+C(i*1.3+t*.7)*H*.25/z;A.blit(R,(I(x-R.get_width()/2),I(y-R.get_height()/2)))
@@ -115,7 +115,7 @@ def dr(k,A,t):
   for i in range(900):
    x,y=S(1.4*y)-C(1.56*x),S(1.2*x)-C(1.7*y);d.circle(A,hc(i*.002+t,k),(I(cx+x*W*.16*(1+bt)),I(cy+y*H*.16*(1+bt))),1)
  else:
-  M='LOL AI 404 ☻ ??? ★ ♥ ☺ ☹'.split()
+  M='LOL AI 404 ☻ ??? ★ ♥ ☺ ☹ WOW'.split()
   for y in range(-10,11):
    for x in range(-14,15):
     e=S(m.hypot(x/5,y/4)-t*4)+S(x*.7+t)+C(y*.9+t);m0=((x+4)**2+(y+2)**2<7)or((x-4)**2+(y+2)**2<7)or(y>3 and abs(x)<7 and(x+y+I(t*8))%3==0)
@@ -126,8 +126,8 @@ def dr(k,A,t):
 k=tm=0
 while 1:
  if any(e.type in(p.QUIT,p.KEYDOWN)for e in p.event.get()):p.quit();exit()
- dt=cl.tick(60)/1000;tm+=dt;t=gt()*1e-3;a=min(1,max(0,(tm-8.5)/1.5));bt=dr(k,U,t);dr(k+1,V,t);U.set_alpha(I(255*(1-a)));V.set_alpha(I(255*a));s.fill(0);s.blit(U,(0,0));s.blit(V,(0,0))
- if k&4:R=p.transform.rotozoom(s,S(t)*4,1.02);s.blit(R,((W-R.get_width())//2,(H-R.get_height())//2))
+ dt=cl.tick(60)/1000;tm+=dt;t=gt()*1e-3;a=min(1,max(0,(tm-5.5)/1.5));bt=dr(k,U,t);dr(k+1,V,t);U.set_alpha(I(255*(1-a)));V.set_alpha(I(255*a));s.fill(0);s.blit(U,(0,0));s.blit(V,(0,0))
+ if k&4:R=p.transform.rotozoom(s,S(t)*6,1.025);s.blit(R,((W-R.get_width())//2,(H-R.get_height())//2))
  if bt>.92:z=1.05+bt*.04;R=p.transform.scale(s,(I(W*z),I(H*z)));s.blit(R,(-I(W*(z-1)/2),-I(H*(z-1)/2)),special_flags=p.BLEND_RGB_ADD)
  p.display.flip()
- if tm>10:k+=1;tm=0
+ if tm>7:k+=1;tm=0
